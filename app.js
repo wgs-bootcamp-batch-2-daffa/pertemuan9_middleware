@@ -5,6 +5,7 @@ const host = 'http://localhost'
 var bodyParser = require('body-parser');
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 var expressLayouts = require('express-ejs-layouts');
+var morgan = require('morgan')
 
 // Set ejs
 app.set('view engine', 'ejs');
@@ -12,8 +13,11 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 // Set express-ejs
 app.set('layout', 'layouts/main');
+// Use public folder
 app.use(express.static('public'))
+// Logger
 app.use((req, res, next) => {
+    console.log('<===========================================================>');
     console.log(Date(Date.now()));
     next()
 })
@@ -24,16 +28,10 @@ app.get('/', (req, res) => {
 })
 // Page About
 app.get('/about', (req, res) => {
-    data = {
-        tittle: 'About Page',
-        name: 'M. Daffa R. A.',
-        occupation: 'Founder Daffapedia'
-    }
-    res.render('about', { data })
+    res.render('about')
 })
 // Page Contact
 app.get('/contact', (req, res) => {
-    tittle = 'Contact Page'
     const contact = [
         {
             name: 'daffa',
@@ -48,7 +46,7 @@ app.get('/contact', (req, res) => {
             email: 'ucupraihan03@gmail.com'
         },
     ]
-    res.render('contact', { tittle, contact })
+    res.render('contact', { contact })
 })
 // Page Drinks params
 app.get('/drinks/:minuman', (req, res) => {
